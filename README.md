@@ -148,9 +148,27 @@ Full reconfiguration of all nodes of the cluster.   This will run the same steps
 /opt/oci-hpc/bin/resize.sh reconfigure
 ```
 
-
 ## Monitoring
 
 ## Troubleshooting
+
+### Compute Node GPU Failure
+
+You can login to the compute node to check detailed info in order to identity the node status.
+If you want to check GPU status, you can check with below command.
+
+```
+nvidia-smi
+```
+
+Below screenshot shows the output of the command. If you see the output like this, it means the GPU is working fine.
+
+![nvidia-smi](images/04_Troubleshooting/01_nvidia-smi.png)
+
+if you see error message, you need to check the GPU status with below command.
+
+```
+sudo python3 /opt/oci-hpc/healthchecks/check_gpu_setup.py
+```
 
 ## Reference
