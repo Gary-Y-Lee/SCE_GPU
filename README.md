@@ -1,4 +1,4 @@
-# SCE_GPU
+# SCE GPU Playbook
 
 ## Installation
 The installation of the GPU cluster utilizes the OCI stack from the provided link: [oracle-quickstart/oci-hpc](https://github.com/oracle-quickstart/oci-hpc)
@@ -11,8 +11,143 @@ When configuring HPC + GPU clustering in OCI, the official recommendation is to 
 ![GPU Images By OS Type & Shape](./images/01_Installation/02_GPU_Images.png)
 
 
-
 ## Operation
+
+### Cluster Network Resizing (via resize.sh)
+
+Cluster resizing refers to ability to add or remove nodes from an existing cluster network. Apart from add/remove, the resize.py script can also be used to reconfigure the nodes.
+
+Resizing of HPC cluster with Cluster Network consist of 2 major sub-steps:
+
+Add/Remove node (IaaS provisioning) to cluster – uses OCI Python SDK
+
+Configure the nodes (uses Ansible)
+
+Configures newly added nodes to be ready to run the jobs
+Reconfigure services like Slurm to recognize new nodes on all nodes
+Update rest of the nodes, when any node/s are removed (eg: Slurm config, /etc/hosts, etc.)
+
+```
+/opt/oci-hpc/bin/resize.sh -h
+usage: resize.sh [-h] [--compartment_ocid COMPARTMENT_OCID]
+                 [--cluster_name CLUSTER_NAME] [--nodes NODES [NODES ...]]
+                 [--no_reconfigure] [--user_logging] [--force] [--remove_unreachable]
+                 [{add,remove,remove_unreachable,list,reconfigure}] [number] [--quiet]
+Script to resize the CN
+
+positional arguments:
+  {add,remove,remove_unreachable,list,reconfigure}
+                              Mode type. add/remove node options, implicitly
+                              configures newly added nodes. Also implicitly
+                              reconfigure/restart services like Slurm to recognize
+                              new nodes. Similarly for remove option, terminates
+                              nodes and implicitly reconfigure/restart services like
+                              Slurm on rest of the cluster nodes to remove reference
+                              to deleted nodes. IMPORTANT: remove or remove_unreachable 
+                              means delete the node from the cluster which means terminate 
+                              the node. remove_unreachable should be used to remove specific 
+                              nodes which are no longer reachable via ssh. It gives you control 
+                              on which nodes will be terminated by passing the --nodes parameter.
+number                        Number of nodes to add or delete if a list of
+                              hostnames is not defined.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --compartment_ocid COMPARTMENT_OCID
+                        OCID of the compartment, defaults to the Compartment
+                        OCID of the localhost
+  --cluster_name CLUSTER_NAME
+                        Name of the cluster to resize. Defaults to the name
+                        included in the controller
+  --nodes NODES [NODES ...]
+                        List of nodes to delete
+  --no_reconfigure      If present. Does not rerun the playbooks
+  --user_logging        If present. Use the default settings in ~/.oci/config
+                        to connect to the API. Default is using
+                        instance_principal
+  --force               If present. Nodes will be removed even if the destroy
+                        playbook failed
+  --ansible_crucial     If present during reconfiguration, only crucial
+                        ansible playbooks will be executed on the live nodes.
+                        Non live nodes will be removed
+  --remove_unreachable  If present, ALL nodes that are not sshable will be terminated 
+                        before running the action that was requested (Example Adding a node). 
+                        CAUTION: Use this only if you want to remove ALL nodes that 
+                        are unreachable. Instead, remove specific nodes that are 
+                        unreachable by using positional argument remove_unreachable. 
+  --quiet               If present, the script will not prompt for a response when 
+                        removing nodes and will not give a reminder to save data 
+                        from nodes that are being removed
+```
+
+**Add nodes** 
+
+Consist of the following sub-steps:
+- Add node (IaaS provisioning) to cluster – uses OCI Python SDK 
+- Configure the nodes (uses Ansible)
+  -  Configures newly added nodes to be ready to run the jobs
+  -  Reconfigure services like Slurm to recognize new nodes on all nodes
+
+Add one node 
+```
+/opt/oci-hpc/bin/resize.sh add 1
+
+```
+
+Add three nodes to cluster compute-1-hpc
+```
+/opt/oci-hpc/bin/resize.sh add 3 --cluster_name compute-1-hpc
+
+```
+
+
+**Remove nodes** 
+
+Consist of the following sub-steps:
+- Remove node/s (IaaS termination) from cluster – uses OCI Python SDK 
+- Reconfigure rest of the nodes in the cluster  (uses Ansible)
+  -  Remove reference to removed node/s on rest of the nodes (eg: update /etc/hosts, slurm configs, etc.)
+ 
+
+Remove specific node:  
+```
+/opt/oci-hpc/bin/resize.sh remove --nodes inst-dpi8e-assuring-woodcock
+```
+or 
+
+Remove a list of nodes (space seperated):  
+```
+/opt/oci-hpc/bin/resize.sh remove --nodes inst-dpi8e-assuring-woodcock inst-ed5yh-assuring-woodcock
+```
+or 
+Remove one node randomly:  
+```
+/opt/oci-hpc/bin/resize.sh remove 1
+```
+or 
+Remove 3 nodes randomly from compute-1-hpc:  
+```
+/opt/oci-hpc/bin/resize.sh remove 3 --cluster_name compute-1-hpc
+
+```
+or 
+Remove 3 nodes randomly from compute-1-hpc but do not prompt for a response when removing the nodes and do not give a reminder to save data 
+from nodes that are being removed :  
+```
+/opt/oci-hpc/bin/resize.sh remove 3 --cluster_name compute-1-hpc --quiet
+
+```
+
+**Reconfigure nodes** 
+
+This allows users to reconfigure nodes (Ansible tasks) of the cluster.  
+
+Full reconfiguration of all nodes of the cluster.   This will run the same steps, which are ran when a new cluster is created.   If you manually updated configs which are created/updated as part of cluster configuration, then this command will overwrite your manual changes.   
+
+```
+/opt/oci-hpc/bin/resize.sh reconfigure
+```
+
 
 ## Monitoring
 
