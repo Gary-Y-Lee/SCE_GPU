@@ -165,10 +165,28 @@ Below screenshot shows the output of the command. If you see the output like thi
 
 ![nvidia-smi](images/04_Troubleshooting/01_nvidia-smi.png)
 
-if you see error message, you need to check the GPU status with below command.
+if you see error message, you need to check Slurm cluster node & partition status and the GPU status with below command.
+
+* Slurm status
+
+```
+sinfo
+```
+Normal output of the command is similar to the following:
+
+![sinfo](images/04_Troubleshooting/02_sinfo.png)
+
+If you see there is drain state, it means the node is not available for job scheduling. You need to talk with your customer / job owner /  cluster admin to resolve this issue.
+
+* GPU status
 
 ```
 sudo python3 /opt/oci-hpc/healthchecks/check_gpu_setup.py
 ```
+Normal output of the command is similar to the following:
+
+![check_gpu_setup](images/04_Troubleshooting/03_check_gpu_setup.png)
+
+if you see error message, it means the GPU is not working fine. You need to talk with your customer to remove this node from the cluster network.
 
 ## Reference
