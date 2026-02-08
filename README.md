@@ -189,4 +189,25 @@ Normal output of the command is similar to the following:
 
 if you see error message, it means the GPU is not working fine. You need to talk with your customer to remove this node from the cluster network.
 
+If customer environment uses 3rd party solution for storage, you need to ask customer to remove the node from the storage cluster as well.
+
+* Tagging Unhealthy 
+
+When the issue is caused from GPU failure, you need to tag the node as unhealthy to send this node to repair process.
+
+```
+Tag Namespace: ComputeInstanceHostActions
+Tag Name: CustomerReportedHostStatus
+Tag Values: unhealthy 
+```
+
+![unhealthy_tag](images/04_Troubleshooting/04_unhealthy_tag.png)
+
+* Node Repair Process
+
+If the node is terminated with “unhealthy” tag on the “CustomerReportedHostStatus” tag name, The data center operation (DO) repair ticket will be generated automatically and then the node will be repaired by datacenter operation team.
+Below flow is the repair process according to the status change of the node.
+
+![node_repair_process](images/04_Troubleshooting/05_node_repair_process.png)
+
 ## Reference
