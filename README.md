@@ -192,6 +192,12 @@ You can check the GPU health in the following [GPU health Dashboard](https://hor
 
 ![GPU health Dashboard](./images/03_Monitoring/02_gpu_health_dashboard.png)
 
+***GPU Node Repair Visibility***
+
+You can check the GPU node repair visibility in the following [GPU Node Repair Visibility](https://horizonoac-idkzdoic6acl-ia.analytics.ocp.oraclecloud.com/ui/dv/ui/project.jsp?pageid=visualAnalyzer&reportmode=full&reportpath=%2F%40Catalog%2Fshared%2FCHOPS%2FProduction%2FCompute%2FREPAIR%20VISIBILITY).
+
+![GPU Node Repair Visibility](./images/03_Monitoring/03_gpu_node_repair_visibility.png)
+
 ## Troubleshooting
 
 ### Compute Node GPU Failure
