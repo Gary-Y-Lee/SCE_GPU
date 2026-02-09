@@ -222,8 +222,6 @@ Normal output of the command is similar to the following:
 
 if you see error message, it means the GPU is not working fine. You need to talk with your customer to remove this node from the cluster network.
 
-If customer environment uses 3rd party solution for storage, you need to ask customer to remove the node from the storage cluster as well.
-
 ***Tagging 'Unhealthy'***
 
 When the issue is caused from GPU failure, you need to tag the node as unhealthy to send this node to repair process.
@@ -239,6 +237,8 @@ Tag Values: unhealthy
 ***Terminate the node and remove it from the cluster***
 
 When you tagged the node unhealthy, the node need to be terminated and removed from the cluster manually with `resize.sh`.
+
+*<span style="color:red">If customer environment uses 3rd party solution for storage (WEKAFS, Lustre and etc.), you need to ask customer to remove the node from the storage cluster before remove the node from cluster network.</span>*
 
 ```
 /opt/oci-hpc/bin/resize.sh remove --nodes <instance_name>
