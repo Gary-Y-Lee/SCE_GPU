@@ -231,8 +231,14 @@ if you see error message, you need to check Slurm cluster node & partition statu
 sinfo
 ```
 Normal output of the command is similar to the following:
-
 ![sinfo](images/04_Troubleshooting/02_sinfo.png)
+
+
+```
+systemctl status slurmd
+```
+Normal output of the command is similar to the following:
+![slurmd](images/04_Troubleshooting/02_slurmd.png)
 
 If you see there is drain state, it means the node is not available for job scheduling. You need to talk with your customer / job owner /  cluster admin to resolve this issue.
 
