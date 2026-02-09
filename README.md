@@ -238,7 +238,7 @@ Tag Values: unhealthy
 
 When you tagged the node unhealthy, the node need to be terminated and removed from the cluster manually with `resize.sh`.
 
-*<span style="color:red">If customer environment uses 3rd party solution for storage (WEKAFS, Lustre and etc.), you need to ask customer to remove the node from the storage cluster before remove the node from cluster network.</span>*
+<span style="color:red">*If customer environment uses 3rd party solution for storage (WEKAFS, Lustre and etc.), you need to ask customer to remove the node from the storage cluster before remove the node from cluster network.*</span>
 
 ```
 /opt/oci-hpc/bin/resize.sh remove --nodes <instance_name>
