@@ -198,6 +198,14 @@ You can check the GPU node repair visibility in the following [GPU Node Repair V
 
 ![GPU Node Repair Visibility](./images/03_Monitoring/03_gpu_node_repair_visibility.png)
 
+### C4PO
+
+***C4PO Dashboard***
+
+You can check the customer pool, GPU shape, region status and capacityin the following [C4PO](https://devops.oci.oraclecorp.com/compute-admin/pools/?region=ap-osaka-1-ad-1).
+
+![C4PO](./images/03_Monitoring/04_c4po.png)
+
 ## Troubleshooting
 
 ### Compute Node GPU Failure
