@@ -225,7 +225,7 @@ Below screenshot shows the output of the command. If you see the output like thi
 
 if you see error message, you need to check Slurm cluster node & partition status and the GPU status with below command.
 
-***Slurm status***
+***Slurm Status***
 
 ```
 sinfo
@@ -242,7 +242,7 @@ Normal output of the command is similar to the following:
 
 If you see there is drain state, it means the node is not available for job scheduling. You need to talk with your customer / job owner /  cluster admin to resolve this issue.
 
-***GPU / RDMA / PCIe status***
+***GPU / RDMA / PCIe Status***
 
 ```
 sudo python3 /opt/oci-hpc/healthchecks/check_gpu_setup.py
@@ -252,6 +252,14 @@ Normal output of the command is similar to the following:
 ![check_gpu_setup](images/04_Troubleshooting/03_check_gpu_setup.png)
 
 if you see error message, it means the GPU is not working fine. You need to talk with your customer to remove this node from the cluster network.
+
+***NCCL Status***
+
+```
+bash current_node_nccl.sh
+```
+Normal output of the command is similar to the following:
+![nccl](images/04_Troubleshooting/04_nccl.png)
 
 ***Tagging 'Unhealthy'***
 
@@ -263,7 +271,7 @@ Tag Name: CustomerReportedHostStatus
 Tag Values: unhealthy 
 ```
 
-![unhealthy_tag](images/04_Troubleshooting/04_unhealthy_tag.png)
+![unhealthy_tag](images/04_Troubleshooting/05_unhealthy_tag.png)
 
 ***Terminate the node and remove it from the cluster***
 
@@ -286,6 +294,6 @@ tail  -f /opt/oci-hpc/logs/resize_<instance_pool_name>.log
 If the node is terminated with “unhealthy” tag on the “CustomerReportedHostStatus” tag name, The data center operation (DO) repair ticket will be generated automatically and then the node will be repaired by datacenter operation team.
 Below flow is the repair process according to the status change of the node.
 
-![node_repair_process](images/04_Troubleshooting/05_node_repair_process.png)
+![node_repair_process](images/04_Troubleshooting/06_node_repair_process.png)
 
 ## Reference
