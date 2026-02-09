@@ -179,7 +179,18 @@ You can check the TopologyPolicy OCID and Instance Shape in the OCI Console or y
 
 ### Horizon Dashboard
 
+***GPU Node Hourly Availability***
 
+You can check the GPU node hourly availability in the following [Horizon Dashboard](https://horizonoac-idkzdoic6acl-ia.analytics.ocp.oraclecloud.com/ui/dv/ui/project.jsp?pageid=visualAnalyzer&reportmode=full&reportpath=%2F%40Catalog%2Fshared%2FSCGMENA%2FProduction%2FGPU_Node_Availability_Hour_Gary).
+
+![GPU Node Hourly Availability](./images/03_Monitoring/01_gpu_node_hourly_availability.png)
+
+
+***GPU health Dashboard***
+
+You can check the GPU health in the following [GPU health Dashboard](https://horizonoac-idkzdoic6acl-ia.analytics.ocp.oraclecloud.com/ui/dv/ui/project.jsp?pageid=visualAnalyzer&reportmode=presentation&reportpath=%2F%40Catalog%2Fshared%2FCHOPS%2FProduction%2FCompute%2FGPU%20Health%20Dashboard).
+
+![GPU health Dashboard](./images/03_Monitoring/02_gpu_health_dashboard.png)
 
 ## Troubleshooting
 
