@@ -80,7 +80,7 @@ optional arguments:
                         from nodes that are being removed
 ```
 
-**Add nodes** 
+***Add nodes*** 
 
 Consist of the following sub-steps:
 - Add node (IaaS provisioning) to cluster – uses OCI Python SDK 
@@ -101,7 +101,7 @@ Add three nodes to cluster compute-1-hpc
 ```
 
 
-**Remove nodes** 
+***Remove nodes*** 
 
 Consist of the following sub-steps:
 - Remove node/s (IaaS termination) from cluster – uses OCI Python SDK 
@@ -119,18 +119,21 @@ Remove a list of nodes (space seperated):
 ```
 /opt/oci-hpc/bin/resize.sh remove --nodes inst-dpi8e-assuring-woodcock inst-ed5yh-assuring-woodcock
 ```
-or 
+or
+
 Remove one node randomly:  
 ```
 /opt/oci-hpc/bin/resize.sh remove 1
 ```
 or 
+
 Remove 3 nodes randomly from compute-1-hpc:  
 ```
 /opt/oci-hpc/bin/resize.sh remove 3 --cluster_name compute-1-hpc
 
 ```
 or 
+
 Remove 3 nodes randomly from compute-1-hpc but do not prompt for a response when removing the nodes and do not give a reminder to save data 
 from nodes that are being removed :  
 ```
@@ -138,7 +141,7 @@ from nodes that are being removed :
 
 ```
 
-**Reconfigure nodes** 
+***Reconfigure nodes*** 
 
 This allows users to reconfigure nodes (Ansible tasks) of the cluster.  
 
@@ -148,11 +151,41 @@ Full reconfiguration of all nodes of the cluster.   This will run the same steps
 /opt/oci-hpc/bin/resize.sh reconfigure
 ```
 
+### Automation
+
+***Automation of adding nodes***
+
+You can use the following script to automate the process of adding nodes.
+You can create a shell script and schedule it to run at regular intervals with crontab.
+
+Below script checks the number of available nodes in the capacity topology and adds the nodes to the cluster.
+
+```
+count=$(/home/ubuntu/bin/oci compute capacity-topology bare-metal-host list \
+  --capacity-topology-id <TopologyPolicy OCID> \
+  | jq '[.data.items[] | select(."instance-id" == null and  .["instance-shape"] == "<Instance Shape>" and ."lifecycle-details" == "AVAILABLE")] | length')
+
+if [ "$count" -gt 0 ]; then
+      /opt/oci-hpc/bin/resize.sh add $count
+fi
+```
+
+You can check the TopologyPolicy OCID and Instance Shape in the OCI Console or you need to check with your OCI Admin.
+
+![topology_policy](./images/02_Operation/01_topology_policy.png)
+![shape](./images/02_Operation/02_shape.png)
+
 ## Monitoring
+
+### Horizon Dashboard
+
+
 
 ## Troubleshooting
 
 ### Compute Node GPU Failure
+
+***nvidia-smi***
 
 You can login to the compute node to check detailed info in order to identity the node status.
 If you want to check GPU status, you can check with below command.
@@ -167,7 +200,7 @@ Below screenshot shows the output of the command. If you see the output like thi
 
 if you see error message, you need to check Slurm cluster node & partition status and the GPU status with below command.
 
-* Slurm status
+***Slurm status***
 
 ```
 sinfo
@@ -178,7 +211,7 @@ Normal output of the command is similar to the following:
 
 If you see there is drain state, it means the node is not available for job scheduling. You need to talk with your customer / job owner /  cluster admin to resolve this issue.
 
-* GPU status
+***GPU status***
 
 ```
 sudo python3 /opt/oci-hpc/healthchecks/check_gpu_setup.py
@@ -191,7 +224,7 @@ if you see error message, it means the GPU is not working fine. You need to talk
 
 If customer environment uses 3rd party solution for storage, you need to ask customer to remove the node from the storage cluster as well.
 
-* Tagging Unhealthy 
+***Tagging Unhealthy***
 
 When the issue is caused from GPU failure, you need to tag the node as unhealthy to send this node to repair process.
 
@@ -203,7 +236,21 @@ Tag Values: unhealthy
 
 ![unhealthy_tag](images/04_Troubleshooting/04_unhealthy_tag.png)
 
-* Node Repair Process
+***Terminate the node and remove it from the cluster***
+
+When you tagged the node unhealthy, the node need to be terminated and removed from the cluster manually with `resize.sh`.
+
+```
+/opt/oci-hpc/bin/resize.sh remove --nodes <instance_name>
+```
+
+you can check the status and progress of the node removal with below command.
+
+```
+tail  -f /opt/oci-hpc/logs/resize_<instance_pool_name>.log
+```
+
+***Node Repair Process***
 
 If the node is terminated with “unhealthy” tag on the “CustomerReportedHostStatus” tag name, The data center operation (DO) repair ticket will be generated automatically and then the node will be repaired by datacenter operation team.
 Below flow is the repair process according to the status change of the node.
