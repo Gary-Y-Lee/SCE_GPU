@@ -1,4 +1,4 @@
-# SCE GPU Playbook
+# SCE GPU Operation Playbook
 
 ## Installation
 The installation of the GPU cluster utilizes the OCI stack from the provided link: [oracle-quickstart/oci-hpc](https://github.com/oracle-quickstart/oci-hpc)
