@@ -224,7 +224,7 @@ if you see error message, it means the GPU is not working fine. You need to talk
 
 If customer environment uses 3rd party solution for storage, you need to ask customer to remove the node from the storage cluster as well.
 
-***Tagging Unhealthy***
+***Tagging 'Unhealthy'***
 
 When the issue is caused from GPU failure, you need to tag the node as unhealthy to send this node to repair process.
 
