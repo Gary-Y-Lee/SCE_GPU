@@ -211,7 +211,7 @@ Normal output of the command is similar to the following:
 
 If you see there is drain state, it means the node is not available for job scheduling. You need to talk with your customer / job owner /  cluster admin to resolve this issue.
 
-***GPU status***
+***GPU / RDMA / PCIe status***
 
 ```
 sudo python3 /opt/oci-hpc/healthchecks/check_gpu_setup.py
