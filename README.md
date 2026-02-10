@@ -206,6 +206,12 @@ You can check the customer pool, GPU shape, region status and capacityin the fol
 
 ![C4PO](./images/03_Monitoring/04_c4po.png)
 
+### Prometheus & Grafana Stack with Dashboards and Alerts
+
+The following link is Prometheus and [Grafana monitoring stack](https://github.com/oracle-quickstart/oci-hpc-oke/blob/main/docs/deploying-monitoring-stack-manually.md) outside of Terraform, including custom dashboards and alerts for GPU/RDMA workloads on Kubernetes.
+
+![Prometheus & Grafana Stack with Dashboards and Alerts](./images/03_Monitoring/05_prometheus_grafana.png)
+
 ## Troubleshooting
 
 ### Compute Node GPU Failure
