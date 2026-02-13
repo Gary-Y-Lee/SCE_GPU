@@ -325,4 +325,8 @@ You can check the network interface identifier with following command.
 ip link
 ```
 
+Normal output of the command is similar to the following:
+
+![ip_link](images/04_Troubleshooting/07_ip_link.png)
+
 ## Reference
