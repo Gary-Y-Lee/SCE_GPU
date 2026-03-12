@@ -1,4 +1,4 @@
-# Monitoring and chasing Host in OCI Repair-Process
+# Monitoring and tracing Host in OCI Repair-Process
 
 ## Step 1 GPU Health Dashboard
 
