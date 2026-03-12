@@ -302,6 +302,8 @@ Below flow is the repair process according to the status change of the node.
 
 ![node_repair_process](images/04_Troubleshooting/06_node_repair_process.png)
 
+To monitor and chase repairing process, please follow this [Guidance](./Monitoring/Repair_Chase.md).
+
 ***slurmd status broken after cluster resize***
 
 If GPU nodes are added or removed and the node information disappears from sinfo, it usually means the `slurmd` state has become inconsistent. In such cases, restarting `slurmd` on the compute nodes may be required.
